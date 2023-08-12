@@ -17,9 +17,15 @@
       ],
       "rules": {
         "no-console": ["error", { "allow": ["error"] }],
-        "@typescript-eslint/quotes": ["error", "single", { "avoidEscape": true }],
         "no-trailing-spaces": "error",
-        "@typescript-eslint/no-unused-vars": "error",
+        "no-unused-vars": "off",
+        "@typescript-eslint/quotes": ["error", "single", { "avoidEscape": true }],
+        "@typescript-eslint/no-unused-vars": [
+          "error",
+          { 
+            "argsIgnorePattern": "^_"
+          }
+        ],
         "@angular-eslint/directive-selector": [
           "error",
           {
