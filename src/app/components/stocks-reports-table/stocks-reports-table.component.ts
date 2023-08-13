@@ -1,8 +1,9 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { first } from 'rxjs';
 import { IStocksData } from 'src/app/interfaces/stocks';
-import { ApiService } from 'src/app/services/api/api.service';
+import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
+import { StocksService } from 'src/app/services/stocks/stocks.service';
 
 @Component({
   selector: 'app-stocks-reports-table',
@@ -11,9 +12,6 @@ import { ApiService } from 'src/app/services/api/api.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StocksReportsTableComponent implements OnInit {
-
-  @ViewChild('table', { static: true }) table!: MatTable<IStocksData>;
-
   public displayed_columns = [
     'position',
     'close',
@@ -25,27 +23,22 @@ export class StocksReportsTableComponent implements OnInit {
     'volume'
   ];
 
-  private page = 1;
-  private per_page = 10;
-
-  public drag_disabled = true;
-
-  public datasource = new MatTableDataSource<IStocksData>([]);
-
-  constructor(private readonly api: ApiService, private readonly cdr: ChangeDetectorRef){}
+  constructor(public readonly stocks_service: StocksService, private readonly local_storage_service: LocalStorageService){}
 
   ngOnInit(): void {
-    this.refreshData();
+    this.initialize_pagination();
   }
 
-  private async refreshData(): Promise<void> {
-    this.datasource = new MatTableDataSource((await this.api.getStocksData(this.page, this.per_page)) || []);
-    this.cdr.detectChanges();
+  private initialize_pagination(): void {
+    this.stocks_service.page_number$.next(this.local_storage_service.getStocksPageNumber());
+    this.stocks_service.per_page$.next(this.local_storage_service.getStocksPerPage());
   }
 
   public drop(event: CdkDragDrop<string, IStocksData>) {
-    const { previousIndex, currentIndex } = event;
-    moveItemInArray(this.datasource.data, previousIndex, currentIndex);
-    this.table.renderRows();
+    this.stocks_service.stocks$.pipe(first()).subscribe((stocks) => {
+      const { previousIndex, currentIndex } = event;
+      moveItemInArray(stocks, previousIndex, currentIndex);
+      this.stocks_service.stocks$.next(stocks);
+    });
   }
 }

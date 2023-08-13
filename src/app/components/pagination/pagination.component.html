@@ -1,0 +1,25 @@
+<div class="pagination__wrapper">
+  <mat-form-field>
+    <mat-label>Per page</mat-label>
+    <mat-select [formControl]="per_page_form">
+      <mat-option *ngFor="let per_page of per_page_options"
+                  [value]="per_page">{{per_page}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div>
+    <button mat-button 
+            color="primary"
+            [disabled]="prev_button_disabled$ | async"
+            (click)="changePage(-1)">
+      <mat-icon>keyboard_arrow_left</mat-icon>
+    </button>
+
+    <button mat-button 
+            color="primary"
+            [disabled]="next_button_disabled$ | async"
+            (click)="changePage(1)">
+      <mat-icon>keyboard_arrow_right</mat-icon>
+    </button>
+  </div>
+</div>

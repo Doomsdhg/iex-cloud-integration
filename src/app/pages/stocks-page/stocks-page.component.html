@@ -1,0 +1,12 @@
+<div class="stocks-page__wrapper">
+  <app-stocks-reports-table></app-stocks-reports-table>
+
+  <div *ngIf="(stocks_service.stocks_loading$ | async) else pagination"
+       class="stocks-page__spinner">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <ng-template #pagination>
+    <app-pagination></app-pagination>
+  </ng-template>
+</div>

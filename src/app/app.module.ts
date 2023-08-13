@@ -8,11 +8,22 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CdkTableModule } from '@angular/cdk/table';
 import { MatTableModule } from '@angular/material/table';
+import { PaginationComponent } from './components/pagination/pagination.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { StocksPageComponent } from './pages/stocks-page/stocks-page.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    StocksReportsTableComponent
+    StocksReportsTableComponent,
+    PaginationComponent,
+    StocksPageComponent
   ],
   imports: [
     BrowserModule,
@@ -20,7 +31,15 @@ import { MatTableModule } from '@angular/material/table';
     BrowserAnimationsModule,
     CdkTableModule,
     MatTableModule,
-    DragDropModule
+    DragDropModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    FormsModule,
+    MatIconModule,
+    ReactiveFormsModule,
+    MatProgressSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

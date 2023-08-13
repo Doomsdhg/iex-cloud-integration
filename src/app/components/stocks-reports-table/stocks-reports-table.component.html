@@ -1,10 +1,9 @@
 <mat-table #table
-           [dataSource]="datasource"
+           [dataSource]="stocks_service.stocks$"
            class="mat-elevation-z8"
            cdkDropList
            (cdkDropListDropped)="drop($event)"
-           cdkDropListData="datasource"
-           [cdkDropListDisabled]="drag_disabled">
+           cdkDropListData="stocks_service.stocks$ | async">
 
   <ng-container matColumnDef="position"
                 sticky>
@@ -50,7 +49,6 @@
   <mat-header-row *matHeaderRowDef="displayed_columns"></mat-header-row>
   <mat-row *matRowDef="let row; columns: displayed_columns;"
            cdkDrag
-           [cdkDragData]="row"
-           (mousedown)="drag_disabled = false"></mat-row>
+           [cdkDragData]="row"></mat-row>
 
 </mat-table>
