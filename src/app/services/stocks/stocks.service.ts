@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, ReplaySubject, Subject, combineLatest, distinctUntilChanged, switchMap } from 'rxjs';
 import { IStocksData } from 'src/app/interfaces/stocks';
 import { ApiService } from '../api/api.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,7 @@ export class StocksService {
 
   constructor(public api: ApiService) {
     combineLatest([this.page_number$, this.per_page$]).pipe(
+      takeUntilDestroyed(),
       distinctUntilChanged(),
       switchMap(([page_number, per_page]) => {
         this.stocks$.next([]);

@@ -23,7 +23,10 @@ export class StocksReportsTableComponent implements OnInit {
     'volume'
   ];
 
-  constructor(public readonly stocks_service: StocksService, private readonly local_storage_service: LocalStorageService){}
+  constructor(
+    public readonly stocks_service: StocksService,
+    private readonly local_storage_service: LocalStorageService
+  ){}
 
   ngOnInit(): void {
     this.initialize_pagination();
